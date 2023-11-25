@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,5 +43,12 @@ public class ConfigSeguridad extends WebSecurityConfigurerAdapter {
                 .csrf().disable() //csrf: es un token que se envía en cada petición para validar que el usuario está autenticado
                 //desactivamos el csrf origenes cruzados para que no nos genere problemas con el cliente, si fuera monolitico hay que activarlo
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); //sessionCreationPolicy: es una política de creación de sesiones que nos permite indicarle a Spring Security que no cree sesiones
+    }
+
+    @Override
+    public  void configure(WebSecurity web) throws  Exception{
+        web.ignoring().antMatchers("/v2/api-docs","/configuration/**","/swagger-resources/**",
+                    "/swagger-ui.html","/webjars/**","/api-docs/**"
+                );
     }
 }
